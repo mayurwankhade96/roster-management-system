@@ -1,35 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { DateCarousel } from "./components/DateCarousel";
+import { Header } from "./components/Header";
+import { Providers } from "./components/Providers";
+import { Sidebar } from "./components/Sidebar";
+import rosterData from "./data.json";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const centerOptions = rosterData.map((roster) => ({
+    label: roster.clinic_details.name,
+    value: roster.clinic_details.id,
+  }));
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <div className="flex grow">
+        <Sidebar centerOptions={centerOptions} />
+        <main className="w-[calc(100%-360px)] px-6 py-4">
+          <DateCarousel />
+          <Providers providers={rosterData} />
+        </main>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
