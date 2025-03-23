@@ -4,6 +4,7 @@ import videoCamIcon from "../assets/icons/video-cam.svg";
 import rightIconOrange from "../assets/icons/right-icon-orange.svg";
 import leftIcon from "../assets/icons/leftIIconGrey.svg";
 import rightIcon from "../assets/icons/rightIconGrey.svg";
+import { useRef } from "react";
 
 type ClinicDetails = {
   id: number;
@@ -106,6 +107,8 @@ const timings = [
 ];
 
 export const Provider = ({ provider }: ProviderProps) => {
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
   const getBackgroundColor = (timeToMatch: string) => {
     if (provider.availabilities[0].online_slots.includes(timeToMatch)) {
       return { background: "#97cc95", color: "#fff", title: "" };
@@ -133,6 +136,21 @@ export const Provider = ({ provider }: ProviderProps) => {
       return { background: "#c73031", color: "#fff", title: reason || "" };
     }
     return { background: "#eee", color: "#4c4c4c", title: "" };
+  };
+
+  const handleLeftScroll = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleRightScroll = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        left: scrollContainerRef.current?.scrollWidth || 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
@@ -164,11 +182,17 @@ export const Provider = ({ provider }: ProviderProps) => {
       </div>
 
       <div className="flex min-w-0 grow border border-solid border-[#e0e0e0]">
-        <button className="flex w-10 shrink-0 cursor-pointer items-center justify-center border-r border-solid border-[#e0e0e0] hover:bg-gray-200">
+        <button
+          className="flex w-10 shrink-0 cursor-pointer items-center justify-center border-r border-solid border-[#e0e0e0] hover:bg-gray-200"
+          onClick={handleLeftScroll}
+        >
           <Icon src={leftIcon} width={8} />
         </button>
 
-        <div className="scroll-container flex flex-col flex-wrap justify-between gap-3.5 overflow-x-auto p-4">
+        <div
+          className="scroll-container flex flex-col flex-wrap justify-between gap-3.5 overflow-x-auto p-4"
+          ref={scrollContainerRef}
+        >
           {timings.map((time) => {
             return (
               <div
@@ -186,7 +210,10 @@ export const Provider = ({ provider }: ProviderProps) => {
           })}
         </div>
 
-        <button className="flex w-10 shrink-0 cursor-pointer items-center justify-center border-l border-solid border-[#e0e0e0] hover:bg-gray-200">
+        <button
+          className="flex w-10 shrink-0 cursor-pointer items-center justify-center border-l border-solid border-[#e0e0e0] hover:bg-gray-200"
+          onClick={handleRightScroll}
+        >
           <Icon src={rightIcon} width={8} />
         </button>
       </div>

@@ -1,7 +1,7 @@
 import { Button } from "./Button";
-import { Icon } from "./Icon";
+
 import { Option, Select } from "./Select";
-import searchIcon from "../assets/icons/search.svg";
+
 import { useState } from "react";
 
 export type FormValues = {
@@ -16,8 +16,9 @@ type SidebarProps = {
   getFilteredProviders: (formValues: FormValues) => void;
   setFormValues: React.Dispatch<React.SetStateAction<FormValues>>;
   formValues: FormValues;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
+  children: React.ReactNode;
   query: string;
+  selectedSuggestions: string[];
 };
 
 export const Sidebar = ({
@@ -26,8 +27,9 @@ export const Sidebar = ({
   getFilteredProviders,
   setFormValues,
   formValues,
-  setQuery,
+  children,
   query,
+  selectedSuggestions,
 }: SidebarProps) => {
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -58,63 +60,53 @@ export const Sidebar = ({
 
   return (
     <aside className="w-[360px] border-r border-solid border-[#e0e0e0] p-6">
-      <form
-        className="border-b border-solid border-[#e0e0e0]"
-        onSubmit={handleSubmit}
-      >
-        <Select
-          name="service"
-          options={[{ label: "All services", value: "all" }]}
-          onChange={handleChange}
-          value={formValues.service}
-        />
+      {!query && selectedSuggestions.length === 0 && (
+        <form
+          className="mb-4 border-b border-solid border-[#e0e0e0]"
+          onSubmit={handleSubmit}
+        >
+          <Select
+            name="service"
+            options={[{ label: "All services", value: "all" }]}
+            onChange={handleChange}
+            value={formValues.service}
+          />
 
-        <Select
-          name="type"
-          options={[{ label: "All types", value: "all" }, ...typeOptions]}
-          onChange={handleChange}
-          value={formValues.type}
-        />
+          <Select
+            name="type"
+            options={[{ label: "All types", value: "all" }, ...typeOptions]}
+            onChange={handleChange}
+            value={formValues.type}
+          />
 
-        <Select
-          name="center"
-          options={[{ label: "All centers", value: "all" }, ...centerOptions]}
-          onChange={handleChange}
-          value={formValues.center}
-        />
+          <Select
+            name="center"
+            options={[{ label: "All centers", value: "all" }, ...centerOptions]}
+            onChange={handleChange}
+            value={formValues.center}
+          />
 
-        <div className="flex items-center gap-4">
-          {!isDisabled && (
+          <div className="flex items-center gap-4">
+            {!isDisabled && (
+              <Button
+                className="border-0 bg-[#FFF5F2] text-[#E76943]"
+                onClick={handleResetClick}
+                type="reset"
+              >
+                Reset
+              </Button>
+            )}
             <Button
-              className="border-0 bg-[#FFF5F2] text-[#E76943]"
-              onClick={handleResetClick}
-              type="reset"
+              className="border-0 bg-[#E76943] text-white"
+              disabled={isDisabled}
             >
-              Reset
+              Apply
             </Button>
-          )}
-          <Button
-            className="border-0 bg-[#E76943] text-white"
-            disabled={isDisabled}
-          >
-            Apply
-          </Button>
-        </div>
-      </form>
-      <div className="my-4 flex items-center gap-2 rounded-lg border border-solid border-[#9e9e9e] px-1 py-2">
-        <Icon src={searchIcon} alt="Search Icon" />
-        <input
-          className="grow outline-none"
-          type="search"
-          name="query"
-          placeholder="Search provider"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      </div>
-      <p className="text-sm font-medium text-[#4c4c4c]">
-        You can search up to 5 provider to view their availability specifically.
-      </p>
+          </div>
+        </form>
+      )}
+
+      {children}
     </aside>
   );
 };

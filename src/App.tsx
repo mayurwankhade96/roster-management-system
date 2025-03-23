@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateCarousel } from "./components/DateCarousel";
 import { Header } from "./components/Header";
 import { Providers } from "./components/Providers";
 import { FormValues, Sidebar } from "./components/Sidebar";
 import rosterData from "./data.json";
+import { AutoComplete } from "./components/AutoComplete";
 
 function App() {
   const [providers, setProviders] = useState(rosterData);
@@ -13,6 +14,37 @@ function App() {
     type: "all",
     center: "all",
   });
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [selectedSuggestions, setSelectedSuggestions] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!query) {
+      setSuggestions([]);
+      return;
+    }
+
+    setSuggestions(
+      rosterData
+        .filter(
+          (provider) =>
+            provider.name.toLowerCase().includes(query.toLowerCase()) &&
+            !selectedSuggestions.includes(provider.name),
+        )
+        .map((o) => o.name),
+    );
+  }, [query, JSON.stringify(selectedSuggestions)]);
+
+  useEffect(() => {
+    if (selectedSuggestions.length > 0) {
+      setProviders(
+        rosterData.filter((provider) =>
+          selectedSuggestions.includes(provider.name),
+        ),
+      );
+    } else {
+      setProviders(rosterData);
+    }
+  }, [JSON.stringify(selectedSuggestions)]);
 
   const getFilteredProviders = (formValues: FormValues) => {
     if (
@@ -57,9 +89,19 @@ function App() {
           getFilteredProviders={getFilteredProviders}
           setFormValues={setFormValues}
           formValues={formValues}
-          setQuery={setQuery}
           query={query}
-        />
+          selectedSuggestions={selectedSuggestions}
+        >
+          <AutoComplete
+            query={query}
+            setQuery={setQuery}
+            suggestions={suggestions}
+            setSuggestions={setSuggestions}
+            selectedSuggestions={selectedSuggestions}
+            setSelectedSuggestions={setSelectedSuggestions}
+            formValues={formValues}
+          />
+        </Sidebar>
         <main className="w-[calc(100%-360px)] px-6 pt-4">
           <DateCarousel />
           <Providers providers={providers} />
