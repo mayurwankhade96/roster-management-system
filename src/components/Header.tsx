@@ -11,7 +11,7 @@ export const Header = () => {
           <button className="p-2">
             <Icon src={chevronsRight} />
           </button>
-          <h1 className="text-xl font-semibold text-[#4c4c4c]">
+          <h1 className="text-xl leading-8 font-semibold text-[#4c4c4c]">
             Provider Calendar
           </h1>
         </div>

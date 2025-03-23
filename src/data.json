@@ -14,9 +14,9 @@
         "online_slots": ["08:00", "08:15", "08:30"],
         "offline_slots": ["09:00", "09:15"],
         "both_slots": ["10:00", "10:15"],
-        "online_booked_slots": ["08:30"],
-        "offline_booked_slots": ["09:15"],
-        "blocked_slots": [{ "slot": "11:00", "reason": "Unwell" }]
+        "online_booked_slots": ["15:30"],
+        "offline_booked_slots": ["11:15"],
+        "blocked_slots": [{ "slot": "13:00", "reason": "Unwell" }]
       }
     ]
   },
@@ -35,9 +35,9 @@
         "online_slots": ["10:00", "10:15", "10:30"],
         "offline_slots": ["11:00", "11:15"],
         "both_slots": ["12:00"],
-        "online_booked_slots": ["10:30"],
-        "offline_booked_slots": ["11:15"],
-        "blocked_slots": [{ "slot": "12:00", "reason": "Other" }]
+        "online_booked_slots": ["18:30"],
+        "offline_booked_slots": ["12:15"],
+        "blocked_slots": [{ "slot": "14:00", "reason": "Other" }]
       }
     ]
   },

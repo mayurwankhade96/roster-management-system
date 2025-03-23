@@ -39,27 +39,104 @@ type ProviderProps = {
 };
 
 const timings = [
-  { id: 1, times: ["08:00", "08:15", "08:30", "08:45"] },
-  { id: 2, times: ["09:00", "09:15", "09:30", "09:45"] },
-  { id: 3, times: ["10:00", "10:15", "10:30", "10:45"] },
-  { id: 4, times: ["11:00", "11:15", "11:30", "11:45"] },
-  { id: 5, times: ["12:00", "12:15", "12:30", "12:45"] },
-  { id: 6, times: ["13:00", "13:15", "13:30", "13:45"] },
-  { id: 7, times: ["14:00", "14:15", "14:30", "14:45"] },
-  { id: 8, times: ["15:00", "15:15", "15:30", "15:45"] },
-  { id: 9, times: ["16:00", "16:15", "16:30", "16:45"] },
-  { id: 10, times: ["17:00", "17:15", "17:30", "17:45"] },
-  { id: 11, times: ["18:00", "18:15", "18:30", "18:45"] },
-  { id: 12, times: ["19:00", "19:15", "19:30", "19:45"] },
-  { id: 13, times: ["20:00", "20:15", "20:30", "20:45"] },
-  { id: 14, times: ["21:00", "21:15", "21:30", "21:45"] },
-  { id: 15, times: ["22:00", "22:15", "22:30", "22:45"] },
-  { id: 16, times: ["23:00", "23:15", "23:30", "23:45"] },
+  "08:00",
+  "08:15",
+  "08:30",
+  "08:45",
+  "09:00",
+  "09:15",
+  "09:30",
+  "09:45",
+  "10:00",
+  "10:15",
+  "10:30",
+  "10:45",
+  "11:00",
+  "11:15",
+  "11:30",
+  "11:45",
+  "12:00",
+  "12:15",
+  "12:30",
+  "12:45",
+  "13:00",
+  "13:15",
+  "13:30",
+  "13:45",
+  "14:00",
+  "14:15",
+  "14:30",
+  "14:45",
+  "15:00",
+  "15:15",
+  "15:30",
+  "15:45",
+  "16:00",
+  "16:15",
+  "16:30",
+  "16:45",
+  "17:00",
+  "17:15",
+  "17:30",
+  "17:45",
+  "18:00",
+  "18:15",
+  "18:30",
+  "18:45",
+  "19:00",
+  "19:15",
+  "19:30",
+  "19:45",
+  "20:00",
+  "20:15",
+  "20:30",
+  "20:45",
+  "21:00",
+  "21:15",
+  "21:30",
+  "21:45",
+  "22:00",
+  "22:15",
+  "22:30",
+  "22:45",
+  "23:00",
+  "23:15",
+  "23:30",
+  "23:45",
 ];
 
 export const Provider = ({ provider }: ProviderProps) => {
+  const getBackgroundColor = (timeToMatch: string) => {
+    if (provider.availabilities[0].online_slots.includes(timeToMatch)) {
+      return { background: "#97cc95", color: "#fff", title: "" };
+    }
+    if (provider.availabilities[0].offline_slots.includes(timeToMatch)) {
+      return { background: "#e76943", color: "#fff", title: "" };
+    }
+    if (provider.availabilities[0].both_slots.includes(timeToMatch)) {
+      return { background: "#5aa9a8", color: "#fff", title: "" };
+    }
+    if (provider.availabilities[0].online_booked_slots.includes(timeToMatch)) {
+      return { background: "#355e80", color: "#fff", title: "" };
+    }
+    if (provider.availabilities[0].offline_booked_slots.includes(timeToMatch)) {
+      return { background: "#80490b", color: "#fff", title: "" };
+    }
+    if (
+      provider.availabilities[0].blocked_slots
+        .map((o) => o.slot)
+        .includes(timeToMatch)
+    ) {
+      const reason = provider.availabilities[0].blocked_slots.find(
+        (o) => o.slot === timeToMatch,
+      )?.reason;
+      return { background: "#c73031", color: "#fff", title: reason || "" };
+    }
+    return { background: "#eee", color: "#4c4c4c", title: "" };
+  };
+
   return (
-    <div className="flex h-60 gap-4 py-6">
+    <div className="flex h-60 gap-4 py-4">
       <div className="flex h-full min-w-40 flex-col justify-between">
         <div>
           <img
@@ -91,23 +168,19 @@ export const Provider = ({ provider }: ProviderProps) => {
           <Icon src={leftIcon} width={8} />
         </button>
 
-        <div className="scroll-container flex gap-4 overflow-x-auto p-4">
+        <div className="scroll-container flex flex-col flex-wrap justify-between gap-3.5 overflow-x-auto p-4">
           {timings.map((time) => {
             return (
               <div
-                key={time.id}
-                className="flex h-full flex-col justify-between gap-4"
+                key={time}
+                className={`flex h-7 w-16 items-center justify-center rounded-lg text-center text-xs leading-5 font-medium`}
+                style={{
+                  backgroundColor: getBackgroundColor(time).background,
+                  color: getBackgroundColor(time).color,
+                }}
+                title={getBackgroundColor(time).title}
               >
-                {time.times.map((item) => {
-                  return (
-                    <div
-                      key={item}
-                      className="flex h-7 w-16 grow items-center justify-center rounded-lg bg-[#eee] text-center text-xs leading-5 font-medium text-[#4c4c4c]"
-                    >
-                      {item}
-                    </div>
-                  );
-                })}
+                {time}
               </div>
             );
           })}
