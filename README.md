@@ -40,9 +40,14 @@ npm run dev
   - **Center** (e.g., healthcare center location)
   - **Name** (search by provider name)
 - **View Provider Slots**: Users can check provider availability with the following slot statuses:
+
   - **Online**
   - **Offline**
   - **Online & Offline**
   - **Online Booked**
   - **Offline Booked**
   - **Blocked Slots**
+
+  ## Live Demo
+
+  [Click here to view the live project](https://roster-management-system.netlify.app/)
