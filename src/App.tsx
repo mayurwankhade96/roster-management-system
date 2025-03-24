@@ -5,6 +5,8 @@ import { Providers } from "./components/Providers";
 import { FormValues, Sidebar } from "./components/Sidebar";
 import rosterData from "./data.json";
 import { AutoComplete } from "./components/AutoComplete";
+import { Provider } from "./components/Provider";
+import { Calendar } from "./components/Calendar";
 
 function App() {
   const [providers, setProviders] = useState(rosterData);
@@ -16,6 +18,7 @@ function App() {
   });
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedSuggestions, setSelectedSuggestions] = useState<string[]>([]);
+  const [displayCalendar, setDisplayCalendar] = useState(false);
 
   useEffect(() => {
     if (!query) {
@@ -81,7 +84,10 @@ function App() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
+      <Header
+        displayCalendar={displayCalendar}
+        setDisplayCalendar={setDisplayCalendar}
+      />
       <div className="flex grow">
         <Sidebar
           centerOptions={centerOptions}
@@ -102,9 +108,26 @@ function App() {
             formValues={formValues}
           />
         </Sidebar>
-        <main className="w-[calc(100%-360px)] px-6 pt-4">
+        <main
+          className={`w-[calc(100%-360px)] px-6 pt-4 ${displayCalendar && "hidden"}`}
+        >
           <DateCarousel />
-          <Providers providers={providers} />
+          <Providers>
+            {providers.map((provider) => {
+              return (
+                <Provider
+                  key={provider.id}
+                  provider={provider}
+                  setDisplayCalendar={setDisplayCalendar}
+                />
+              );
+            })}
+          </Providers>
+        </main>
+        <main
+          className={`w-[calc(100%-360px)] px-6 pt-4 ${!displayCalendar && "hidden"}`}
+        >
+          <Calendar />
         </main>
       </div>
     </div>

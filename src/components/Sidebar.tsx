@@ -66,6 +66,7 @@ export const Sidebar = ({
           onSubmit={handleSubmit}
         >
           <Select
+            className="mb-4"
             name="service"
             options={[{ label: "All services", value: "all" }]}
             onChange={handleChange}
@@ -73,6 +74,7 @@ export const Sidebar = ({
           />
 
           <Select
+            className="mb-4"
             name="type"
             options={[{ label: "All types", value: "all" }, ...typeOptions]}
             onChange={handleChange}
@@ -80,6 +82,7 @@ export const Sidebar = ({
           />
 
           <Select
+            className="mb-4"
             name="center"
             options={[{ label: "All centers", value: "all" }, ...centerOptions]}
             onChange={handleChange}

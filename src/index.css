@@ -3,3 +3,7 @@
 .scroll-container::-webkit-scrollbar {
   display: none;
 }
+
+.fc-timegrid-slot {
+  height: 60px !important; /* Fix each time slot's height */
+}

@@ -16,7 +16,7 @@ type Blocked = {
   reason: string;
 };
 
-type availability = {
+export type Availability = {
   online_slots: string[];
   offline_slots: string[];
   both_slots: string[];
@@ -32,11 +32,12 @@ export type Provider = {
   is_inhouse: boolean;
   image: string;
   clinic_details: ClinicDetails;
-  availabilities: availability[];
+  availabilities: Availability[];
 };
 
 type ProviderProps = {
   provider: Provider;
+  setDisplayCalendar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const timings = [
@@ -106,7 +107,7 @@ const timings = [
   "23:45",
 ];
 
-export const Provider = ({ provider }: ProviderProps) => {
+export const Provider = ({ provider, setDisplayCalendar }: ProviderProps) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const getBackgroundColor = (timeToMatch: string) => {
@@ -176,7 +177,10 @@ export const Provider = ({ provider }: ProviderProps) => {
             <Icon src={videoCamIcon} /> 5
           </div>
         </div>
-        <button className="flex cursor-pointer items-center gap-2 text-sm leading-6 font-semibold text-[#e76943] underline">
+        <button
+          className="flex cursor-pointer items-center gap-2 text-sm leading-6 font-semibold text-[#e76943] underline"
+          onClick={() => setDisplayCalendar(true)}
+        >
           View Calendar <Icon src={rightIconOrange} />
         </button>
       </div>

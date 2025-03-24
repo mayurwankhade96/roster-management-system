@@ -1,15 +1,9 @@
-import { Provider } from "./Provider";
-
 type ProvidersProp = {
-  providers: Provider[];
+  children: React.ReactNode;
 };
 
-export const Providers = ({ providers }: ProvidersProp) => {
+export const Providers = ({ children }: ProvidersProp) => {
   return (
-    <div className="h-[calc(100vh-250px)] overflow-y-auto">
-      {providers.map((provider) => {
-        return <Provider key={provider.id} provider={provider} />;
-      })}
-    </div>
+    <div className="h-[calc(100vh-250px)] overflow-y-auto">{children}</div>
   );
 };
