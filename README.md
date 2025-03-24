@@ -28,7 +28,7 @@ npm run dev
 
 ## Tech Stack
 
-- **Frontend:** HTML, CSS, TypeScript, React, Tailwind CSS
+- **Frontend:** HTML, CSS, TypeScript, React, Tailwind CSS, Full Calendar
 - **Build Tool:** Vite
 - **Version Control:** Git, GitHub
 - **Package Manager:** npm
