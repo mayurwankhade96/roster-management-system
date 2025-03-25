@@ -48,6 +48,6 @@ npm run dev
   - **Offline Booked**
   - **Blocked Slots**
 
-  ## Live Demo
+## Live Demo
 
-  [Click here to view the live project](https://roster-management-system.netlify.app/)
+[Click here to view the live project](https://roster-management-system.netlify.app/)
